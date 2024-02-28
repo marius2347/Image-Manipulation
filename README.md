@@ -2,7 +2,7 @@
 <br>
 <h3>Features</h3>
 <ul>
-    <li></li>
+    <li>.</li>
 </ul>
 
 <h2>Acknowledgments</h2>
