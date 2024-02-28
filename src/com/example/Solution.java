@@ -11,42 +11,40 @@ import javax.imageio.ImageIO;
 public class Solution {
     public static void main(String[] args) {
 
-        // The provided images are apple.jpg, flower.jpg, and kitten.jpg
-        int[][] imageData = imgToTwoD("./apple.jpg");
+        // The provided image is car.jpg
+        int[][] imageData = imgToTwoD("./src/com/example/car.jpg");
 
-        // Or load your own image using a URL!
-        //int[][] imageData = imgToTwoD("https://content.codecademy.com/projects/project_thumbnails/phaser/bug-dodger.png");
 
-        //viewImageData(imageData);
+        viewImageData(imageData);
 
         int[][] trimmed = trimBorders(imageData, 60);
 
-        twoDToImage(trimmed, "./trimmed_apple.jpg");
+        twoDToImage(trimmed, "./trimmed_car.jpg");
 
 
         int[][] negative = negativeColor(imageData);
 
-        twoDToImage(negative, "./negative_apple.jpg");
+        twoDToImage(negative, "./negative_car.jpg");
 
 
         int[][] stretchedHImg = stretchHorizontally(imageData);
 
-        twoDToImage(stretchedHImg, "./stretched_apple.jpg");
+        twoDToImage(stretchedHImg, "./stretched_car.jpg");
 
 
         int[][] shrankVImg = shrinkVertically(imageData);
 
-        twoDToImage(shrankVImg, "./shrank_apple.jpg");
+        twoDToImage(shrankVImg, "./shrank_car.jpg");
 
 
         int[][] invertedImg = invertImage(imageData);
 
-        twoDToImage(invertedImg, "./inverted_apple.jpg");
+        twoDToImage(invertedImg, "./inverted_car.jpg");
 
 
         int[][] coloredImg = colorFilter(imageData, -75, 30, -30);
 
-        twoDToImage(coloredImg, "./colored_apple.jpg");
+        twoDToImage(coloredImg, "./colored_car.jpg");
 
         // int[][] allFilters = stretchHorizontally(shrinkVertically(colorFilter(negativeColor(trimBorders(invertImage(imageData), 50)), 200, 20, 40)));
 

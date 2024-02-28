@@ -71,7 +71,7 @@ public class ImageProcessing {
     public static int[][] imgToTwoD(String inputFileOrLink) {
         try {
             BufferedImage image = null;
-            if (inputFileOrLink.substring(0, 4).toLowerCase().equals("http")) {
+            if (inputFileOrLink.substring(0, 4).equalsIgnoreCase("http")) {
                 URL imageUrl = new URL(inputFileOrLink);
                 image = ImageIO.read(imageUrl);
                 if (image == null) {
