@@ -1,4 +1,4 @@
-<h1>Image Manipulation & Processing - Java Project</h1>
+<h1>Image Manipulation - Java Project</h1>
 <br>
 <h3>Features</h3>
 <ul>
