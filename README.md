@@ -1,9 +1,9 @@
-<h1>Image Manipulation & Processing - Java Project</h1>
+<h1>Image Manipulation - Java Project</h1>
 <br>
 <h3>Features</h3>
 <ul>
     <li>Returns a 2D array of integers that contains every pixel from the image stored as int hexadecimal values containing the RGBA values for the pixel</li>
-    <li>Converts the 2D array of int pixel data into an image and saves it.</li>
+    <li>Converts the 2D array of int pixel data into an image and saves it</li>
     <li>Extract the color components from the hexadecimal value for the pixel.</li>
     <li>Converts the array of red, green, blue, and alpha values back into a hexadecimal value</li>
     <li>Extracting a 3x3 section from the top left of the image</li>
