@@ -8,6 +8,8 @@
     <li>Converts the array of red, green, blue, and alpha values back into a hexadecimal value</li>
     <li>Extracting a 3x3 section from the top left of the image</li>
     <li>View the structure of the image data in both the raw pixel form and the extracted RGBA form</li>
+    <li>Negative Version of the Image</li>
+    <li>Stretch the Image Horizontally</li>
 </ul>
 
 <h2>Acknowledgments</h2>

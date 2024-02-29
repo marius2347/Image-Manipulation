@@ -7,40 +7,51 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 public class ImageProcessing {
     public static void main(String[] args) {
-        // The provided images are apple.jpg, flower.jpg, and kitten.jpg
-        int[][] imageData = imgToTwoD("./apple.jpg");
-        // Or load your own image using a URL!
-        //int[][] imageData = imgToTwoD("https://content.codecademy.com/projects/project_thumbnails/phaser/bug-dodger.png");
-        //viewImageData(imageData);
-        assert imageData != null;
-        int[][] trimmed = trimBorders(imageData, 60);
-        twoDToImage(trimmed, "./trimmed_apple.jpg");
-        // int[][] allFilters = stretchHorizontally(shrinkVertically(colorFilter(negativeColor(trimBorders(invertImage(imageData), 50)), 200, 20, 40)));
-        // Painting with pixels
+        // The provided image is car.jpg
+        int[][] imageData = imgToTwoD("./src/com/example/car.jpg");
+        viewImageData(imageData);
+
+
+        // negative version of the image (negative pixels)
+        String pathToNegativeCar = "./images/negative_car.jpg";
+        int[][] negative = negativeColor(imageData, pathToNegativeCar);
+        twoDToImage(negative, pathToNegativeCar);
+
+        // stretch the image horizontally
+        String pathToStretchH = "./images/stretchHorizontally_car.jpg";
+        int[][] stretchH = stretchHorizontally(imageData, pathToStretchH);
+        twoDToImage(stretchH, pathToStretchH);
     }
     // Image Processing Methods
-    public static int[][] trimBorders(int[][] imageTwoD, int pixelCount) {
-        // Example Method
-        if (imageTwoD.length > pixelCount * 2 && imageTwoD[0].length > pixelCount * 2) {
-            int[][] trimmedImg = new int[imageTwoD.length - pixelCount * 2][imageTwoD[0].length - pixelCount * 2];
-            for (int i = 0; i < trimmedImg.length; i++) {
-                for (int j = 0; j < trimmedImg[i].length; j++) {
-                    trimmedImg[i][j] = imageTwoD[i + pixelCount][j + pixelCount];
-                }
+
+    // Negative Color Method
+    public static int[][] negativeColor(int[][] imageTwoD, String path) {
+        int[][] negativeArray = new int[imageTwoD.length][imageTwoD[0].length];
+        for (int i = 0; i < imageTwoD.length; i++) {
+            for (int j = 0; j < imageTwoD[i].length; j++) {
+                int[] rgba = getRGBAFromPixel(imageTwoD[i][j]); // rgba values
+                // negatives values
+                rgba[0] = 255 - rgba[0];
+                rgba[1] = 255 - rgba[1];
+                rgba[2] = 255 - rgba[2];
+                negativeArray[i][j] = getColorIntValFromRGBA(rgba); // get the int hexadecimal pixel from rgba array
             }
-            return trimmedImg;
-        } else {
-            System.out.println("Cannot trim that many pixels from the given image.");
-            return imageTwoD;
         }
+        System.out.println(path.substring(path.lastIndexOf("/") + 1) + " has been created!");
+        return negativeArray;
     }
-    public static int[][] negativeColor(int[][] imageTwoD) {
-        // TODO: Fill in the code for this method
-        return null;
-    }
-    public static int[][] stretchHorizontally(int[][] imageTwoD) {
-        // TODO: Fill in the code for this method
-        return null;
+    public static int[][] stretchHorizontally(int[][] imageTwoD, String path) {
+        int[][] array = new int[imageTwoD.length][imageTwoD[0].length * 2];
+        int pos = 0; // keep track of position to modify
+        for (int i = 0; i < imageTwoD.length; i++) {
+            for (int j = 0; j < imageTwoD[i].length; j++) {
+                pos = j * 2; // double the column index
+                array[i][pos] = imageTwoD[i][j]; // copy the current pixel
+                array[i][pos + 1] = imageTwoD[i][j];
+            }
+        }
+        System.out.println(path.substring(path.lastIndexOf("/") + 1) + " has been created!");
+        return array;
     }
     public static int[][] shrinkVertically(int[][] imageTwoD) {
         // TODO: Fill in the code for this method
