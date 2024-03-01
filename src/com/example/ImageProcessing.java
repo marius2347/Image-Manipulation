@@ -4,23 +4,75 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Random;
 import javax.imageio.ImageIO;
 public class ImageProcessing {
     public static void main(String[] args) {
         // The provided image is car.jpg
         int[][] imageData = imgToTwoD("./src/com/example/car.jpg");
         viewImageData(imageData);
-
+        int count = 0;
 
         // negative version of the image (negative pixels)
         String pathToNegativeCar = "./images/negative_car.jpg";
-        int[][] negative = negativeColor(imageData, pathToNegativeCar);
+        int[][] imageOne = imageData.clone();
+        int[][] negative = negativeColor(imageOne, pathToNegativeCar);
         twoDToImage(negative, pathToNegativeCar);
 
         // stretch the image horizontally
         String pathToStretchH = "./images/stretchHorizontally_car.jpg";
-        int[][] stretchH = stretchHorizontally(imageData, pathToStretchH);
+        int[][] imageTwo = imageData.clone();
+        int[][] stretchH = stretchHorizontally(imageTwo, pathToStretchH);
         twoDToImage(stretchH, pathToStretchH);
+
+        // shrink the image vertically
+        String pathToStretchV = "./images/stretchVertically_car.jpg";
+        int[][] imageThree = imageData.clone();
+        int[][] stretchV = stretchHorizontally(imageThree, pathToStretchV);
+        twoDToImage(stretchV, pathToStretchV);
+
+        // invert the image
+        String pathToInvert = "./images/invert_car.jpg";
+        int[][] imageFour = imageData.clone();
+        int[][] invert = invertImage(imageFour, pathToInvert);
+        twoDToImage(invert, pathToInvert);
+
+        // color filter
+        String pathToColorFilter = "./images/colorFilter_car.jpg";
+        int redValue = -75;
+        int greenValue = 30;
+        int blueValue = -30;
+        int[][] imageFive = imageData.clone();
+        int[][] colorFilter = colorFilter(imageFive, redValue, greenValue, blueValue, pathToColorFilter);
+        twoDToImage(colorFilter, pathToColorFilter);
+
+        // drawing a rectangle on an image
+        String pathToDrawRectangle = "./images/drawRectangle_car.jpg";
+        int w = 200;
+        int h = 200;
+        int rowPos = 100;
+        int colPos = 100;
+        int[] rgbaToPaint = {255, 255, 0, 255};
+        int colorToPaint = getColorIntValFromRGBA(rgbaToPaint);
+        int[][] imageSeven = imageData.clone();
+        int[][] drawRectangle = paintRectangle(imageSeven, w, h, rowPos, colPos, colorToPaint);
+        twoDToImage(drawRectangle, pathToDrawRectangle);
+        System.out.println(pathToDrawRectangle.substring(pathToDrawRectangle.lastIndexOf("/") + 1) + " has been created!");
+
+        // create abstract geometric art
+        String pathToPaintRandomGeometricArt = "./images/paintRandomGeometricArt_car.jpg";
+        int[][] imageEight = imageData.clone();
+        int numberOfRectangle = 3;
+        int[][] paintRandomGeometricArt = generateRectangles(imageEight, numberOfRectangle);
+        twoDToImage(paintRandomGeometricArt, pathToPaintRandomGeometricArt);
+        System.out.println(pathToPaintRandomGeometricArt.substring(pathToPaintRandomGeometricArt.lastIndexOf("/") + 1) + " has been created!");
+
+        // painting an image of random colors
+        String pathToRandomColors = "./images/randomColors_car.jpg";
+        int[][] imageSix = imageData.clone();
+        int[][] randomColors = paintRandomImage(imageSix, pathToRandomColors);
+        twoDToImage(randomColors, pathToRandomColors);
+
     }
     // Image Processing Methods
 
@@ -40,6 +92,7 @@ public class ImageProcessing {
         System.out.println(path.substring(path.lastIndexOf("/") + 1) + " has been created!");
         return negativeArray;
     }
+    // Stretch Horizontally
     public static int[][] stretchHorizontally(int[][] imageTwoD, String path) {
         int[][] array = new int[imageTwoD.length][imageTwoD[0].length * 2];
         int pos = 0; // keep track of position to modify
@@ -53,30 +106,107 @@ public class ImageProcessing {
         System.out.println(path.substring(path.lastIndexOf("/") + 1) + " has been created!");
         return array;
     }
-    public static int[][] shrinkVertically(int[][] imageTwoD) {
-        // TODO: Fill in the code for this method
-        return null;
+    // Stretch Vertically
+    public static int[][] shrinkVertically(int[][] imageTwoD, String path) {
+        int[][] array = new int[imageTwoD.length / 2][imageTwoD[0].length];
+        for (int i = 0; i < imageTwoD[0].length; i++) {
+            for (int j = 0; j < imageTwoD.length; j += 2) {
+                array[j / 2][i] = imageTwoD[j][i];
+            }
+        }
+        System.out.println(path.substring(path.lastIndexOf("/") + 1) + " has been created!");
+        return array;
     }
-    public static int[][] invertImage(int[][] imageTwoD) {
-        // TODO: Fill in the code for this method
-        return null;
+    // Invert
+    public static int[][] invertImage(int[][] imageTwoD, String path) {
+        int[][] array = new int[imageTwoD.length][imageTwoD[0].length];
+        for (int i = 0; i < imageTwoD.length; i++) {
+            for (int j = 0; j < imageTwoD[i].length; j++) {
+                array[i][j] = imageTwoD[(imageTwoD.length - 1) - i][(imageTwoD[i].length - 1) - j];
+            }
+        }
+        System.out.println(path.substring(path.lastIndexOf("/") + 1) + " has been created!");
+        return array;
     }
-    public static int[][] colorFilter(int[][] imageTwoD, int redChangeValue, int greenChangeValue, int blueChangeValue) {
-        // TODO: Fill in the code for this method
-        return null;
+    // Color filter
+    public static int[][] colorFilter(int[][] imageTwoD, int redChangeValue, int greenChangeValue, int blueChangeValue, String path) {
+       int[][] array = new int[imageTwoD.length][imageTwoD[0].length];
+       for (int i = 0; i < imageTwoD.length; i++) {
+           for (int j = 0; j < imageTwoD[i].length; j++) {
+               int[] rgba = getRGBAFromPixel(imageTwoD[i][j]);
+               int newRed = rgba[0] + redChangeValue;
+               int newGreen = rgba[1] + greenChangeValue;
+               int newBlue = rgba[2] + blueChangeValue;
+
+               if (newRed > 255) {
+                   newRed = 255;
+               } else if (newRed < 0) {
+                   newRed = 0;
+               }
+
+               if (newGreen > 255) {
+                   newGreen = 255;
+               } else if (newGreen < 0) {
+                   newGreen = 0;
+               }
+
+               if (newBlue > 255) {
+                   newBlue = 255;
+               } else if (newBlue < 0) {
+                   newBlue = 0;
+               }
+
+               rgba[0] = newRed;
+               rgba[1] = newGreen;
+               rgba[2] = newBlue;
+
+               array[i][j] = getColorIntValFromRGBA(rgba);
+           }
+       }
+       System.out.println(path.substring(path.lastIndexOf("/") + 1) + " has been created!");
+       return array;
     }
     // Painting Methods
-    public static int[][] paintRandomImage(int[][] canvas) {
-        // TODO: Fill in the code for this method
-        return null;
+
+    // Painting an image of random color
+    public static int[][] paintRandomImage(int[][] canvas, String path) {
+        Random rand = new Random();
+        for (int i = 0; i < canvas.length; i++) {
+            for (int j = 0; j < canvas[i].length; j++) {
+                int[] rgba = {rand.nextInt(256), rand.nextInt(256), rand.nextInt(256), 255};
+                canvas[i][j] = getColorIntValFromRGBA(rgba);
+            }
+        }
+        System.out.println(path.substring(path.lastIndexOf("/") + 1) + " has been created!");
+        return canvas;
     }
+
+    // Drawing a Rectangle of an image
     public static int[][] paintRectangle(int[][] canvas, int width, int height, int rowPosition, int colPosition, int color) {
-        // TODO: Fill in the code for this method
-        return null;
+        for (int i = 0; i < canvas.length; i++) {
+            for (int j = 0; j < canvas[i].length; j++) {
+                if (i >= rowPosition && i <= rowPosition + width) {
+                    if (j >= colPosition && j <= colPosition + height) {
+                        canvas[i][j] = color;
+                    }
+                }
+            }
+        }
+        return canvas;
     }
+    // Create abstract geometric art
     public static int[][] generateRectangles(int[][] canvas, int numRectangles) {
-        // TODO: Fill in the code for this method
-        return null;
+        Random rand = new Random();
+        for (int i = 0; i < numRectangles; i++) {
+            int randomWidth = rand.nextInt(canvas[0].length);
+            int randomHeight = rand.nextInt(canvas.length);
+            int randomRowPos = rand.nextInt(canvas.length - randomHeight);
+            int randomColPos = rand.nextInt(canvas[0].length - randomWidth);
+            int[] rgba = { rand.nextInt(256), rand.nextInt(256), rand.nextInt(256), 255 }; // random color
+            int randomColor = getColorIntValFromRGBA(rgba);
+            canvas = paintRectangle(canvas, randomWidth, randomHeight, randomRowPos, randomColPos, randomColor);
+        }
+        return canvas;
     }
     // Utility Methods
     public static int[][] imgToTwoD(String inputFileOrLink) {

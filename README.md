@@ -10,6 +10,12 @@
     <li>View the structure of the image data in both the raw pixel form and the extracted RGBA form</li>
     <li>Negative Version of the Image</li>
     <li>Stretch the Image Horizontally</li>
+    <li>Shrink the Image Vertically</li>
+    <li>Invert the Image</li>
+    <li>Applying a Color Filter</li>
+    <li>Painting an Image of Random Colors</li>
+    <li>Drawing a Rectangle on an Image</li>
+    <li>Create Abstract Geometric Art</li>
 </ul>
 
 <h2>Acknowledgments</h2>
