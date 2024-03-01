@@ -6,72 +6,106 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Random;
 import javax.imageio.ImageIO;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 public class ImageProcessing {
+    public static void NegativeCar(int[][] imageData) {
+        // negative version of the image (negative pixels)
+        String pathToNegativeCar = "./images/negative_car.jpg";
+        int[][] imageOne = imageData.clone();
+        int[][] negative = negativeColor(imageOne, pathToNegativeCar);
+        twoDToImage(negative, pathToNegativeCar);
+    }
     public static void main(String[] args) {
         // The provided image is car.jpg
         int[][] imageData = imgToTwoD("./src/com/example/car.jpg");
         viewImageData(imageData);
         int count = 0;
 
-        // negative version of the image (negative pixels)
-        String pathToNegativeCar = "./images/negative_car.jpg";
-        int[][] imageOne = imageData.clone();
-        int[][] negative = negativeColor(imageOne, pathToNegativeCar);
-        twoDToImage(negative, pathToNegativeCar);
+        // Functions
 
-        // stretch the image horizontally
-        String pathToStretchH = "./images/stretchHorizontally_car.jpg";
-        int[][] imageTwo = imageData.clone();
-        int[][] stretchH = stretchHorizontally(imageTwo, pathToStretchH);
-        twoDToImage(stretchH, pathToStretchH);
 
-        // shrink the image vertically
-        String pathToStretchV = "./images/stretchVertically_car.jpg";
-        int[][] imageThree = imageData.clone();
-        int[][] stretchV = stretchHorizontally(imageThree, pathToStretchV);
-        twoDToImage(stretchV, pathToStretchV);
+        // Run the program
+        while(true) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+            }
+            System.out.println("1 - Negative Version of the Image");
+            System.out.println("2 - Stretch the Image Horizontally");
+            System.out.println("3 - Shrink the Image Vertically");
+            System.out.println("4 - Invert the Image");
+            System.out.println("5 - Applying a Color Filter");
+            System.out.println("6 - Painting an Image of Random Colors");
+            System.out.println("7 - Drawing a Rectangle on an Image");
+            System.out.println("8 - Create Abstract Geometric Art");
+            System.out.println("9 - All of above");
+            System.out.println("0 - Exit");
+            System.out.println("Please type an option to do so: ");
+            Scanner input = new Scanner(System.in);
+            int choiceNumber = input.nextInt();
+            if (choiceNumber == 1) {
+                NegativeCar(imageData);
+            }
 
-        // invert the image
-        String pathToInvert = "./images/invert_car.jpg";
-        int[][] imageFour = imageData.clone();
-        int[][] invert = invertImage(imageFour, pathToInvert);
-        twoDToImage(invert, pathToInvert);
+        }
 
-        // color filter
-        String pathToColorFilter = "./images/colorFilter_car.jpg";
-        int redValue = -75;
-        int greenValue = 30;
-        int blueValue = -30;
-        int[][] imageFive = imageData.clone();
-        int[][] colorFilter = colorFilter(imageFive, redValue, greenValue, blueValue, pathToColorFilter);
-        twoDToImage(colorFilter, pathToColorFilter);
 
-        // drawing a rectangle on an image
-        String pathToDrawRectangle = "./images/drawRectangle_car.jpg";
-        int w = 200;
-        int h = 200;
-        int rowPos = 100;
-        int colPos = 100;
-        int[] rgbaToPaint = {255, 255, 0, 255};
-        int colorToPaint = getColorIntValFromRGBA(rgbaToPaint);
-        int[][] imageSeven = imageData.clone();
-        int[][] drawRectangle = paintRectangle(imageSeven, w, h, rowPos, colPos, colorToPaint);
-        twoDToImage(drawRectangle, pathToDrawRectangle);
-        System.out.println(pathToDrawRectangle.substring(pathToDrawRectangle.lastIndexOf("/") + 1) + " has been created!");
-
-        // create abstract geometric art
-        String pathToPaintRandomGeometricArt = "./images/paintRandomGeometricArt_car.jpg";
-        int[][] imageEight = imageData.clone();
-        int numberOfRectangle = 3;
-        int[][] paintRandomGeometricArt = generateRectangles(imageEight, numberOfRectangle);
-        twoDToImage(paintRandomGeometricArt, pathToPaintRandomGeometricArt);
-        System.out.println(pathToPaintRandomGeometricArt.substring(pathToPaintRandomGeometricArt.lastIndexOf("/") + 1) + " has been created!");
-
-        // painting an image of random colors
-        String pathToRandomColors = "./images/randomColors_car.jpg";
-        int[][] imageSix = imageData.clone();
-        int[][] randomColors = paintRandomImage(imageSix, pathToRandomColors);
-        twoDToImage(randomColors, pathToRandomColors);
+//        // stretch the image horizontally
+//        String pathToStretchH = "./images/stretchHorizontally_car.jpg";
+//        int[][] imageTwo = imageData.clone();
+//        int[][] stretchH = stretchHorizontally(imageTwo, pathToStretchH);
+//        twoDToImage(stretchH, pathToStretchH);
+//
+//        // shrink the image vertically
+//        String pathToStretchV = "./images/stretchVertically_car.jpg";
+//        int[][] imageThree = imageData.clone();
+//        int[][] stretchV = stretchHorizontally(imageThree, pathToStretchV);
+//        twoDToImage(stretchV, pathToStretchV);
+//
+//        // invert the image
+//        String pathToInvert = "./images/invert_car.jpg";
+//        int[][] imageFour = imageData.clone();
+//        int[][] invert = invertImage(imageFour, pathToInvert);
+//        twoDToImage(invert, pathToInvert);
+//
+//        // color filter
+//        String pathToColorFilter = "./images/colorFilter_car.jpg";
+//        int redValue = -75;
+//        int greenValue = 30;
+//        int blueValue = -30;
+//        int[][] imageFive = imageData.clone();
+//        int[][] colorFilter = colorFilter(imageFive, redValue, greenValue, blueValue, pathToColorFilter);
+//        twoDToImage(colorFilter, pathToColorFilter);
+//
+//        // drawing a rectangle on an image
+//        String pathToDrawRectangle = "./images/drawRectangle_car.jpg";
+//        int w = 200;
+//        int h = 200;
+//        int rowPos = 100;
+//        int colPos = 100;
+//        int[] rgbaToPaint = {255, 255, 0, 255};
+//        int colorToPaint = getColorIntValFromRGBA(rgbaToPaint);
+//        int[][] imageSeven = imageData.clone();
+//        int[][] drawRectangle = paintRectangle(imageSeven, w, h, rowPos, colPos, colorToPaint);
+//        twoDToImage(drawRectangle, pathToDrawRectangle);
+//        System.out.println(pathToDrawRectangle.substring(pathToDrawRectangle.lastIndexOf("/") + 1) + " has been created!");
+//
+//        // create abstract geometric art
+//        String pathToPaintRandomGeometricArt = "./images/paintRandomGeometricArt_car.jpg";
+//        int[][] imageEight = imageData.clone();
+//        int numberOfRectangle = 3;
+//        int[][] paintRandomGeometricArt = generateRectangles(imageEight, numberOfRectangle);
+//        twoDToImage(paintRandomGeometricArt, pathToPaintRandomGeometricArt);
+//        System.out.println(pathToPaintRandomGeometricArt.substring(pathToPaintRandomGeometricArt.lastIndexOf("/") + 1) + " has been created!");
+//
+//        // painting an image of random colors
+//        String pathToRandomColors = "./images/randomColors_car.jpg";
+//        int[][] imageSix = imageData.clone();
+//        int[][] randomColors = paintRandomImage(imageSix, pathToRandomColors);
+//        twoDToImage(randomColors, pathToRandomColors);
 
     }
     // Image Processing Methods
