@@ -16,6 +16,7 @@
     <li>Painting an Image of Random Colors</li>
     <li>Drawing a Rectangle on an Image</li>
     <li>Create Abstract Geometric Art</li>
+    <li>Input user option to choose from</li>
 </ul>
 
 <h2>Acknowledgments</h2>
